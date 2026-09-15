@@ -34,7 +34,7 @@
         <span class="drop">💧</span>
         <p>Première rubrique</p>
         <h2>Qualité de l’eau</h2>
-        <span class="status">En préparation</span>
+        <span class="status">Données 2016–2026</span>
       </div>
     </section>
 
@@ -50,9 +50,9 @@
       <div class="map-layout">
         <aside class="map-panel">
           <h3>État des données</h3>
-          <div class="metric"><span>Points publiés</span><strong>0</strong></div>
-          <div class="metric"><span>Dernière analyse</span><strong>À venir</strong></div>
-          <div class="notice">Aucun résultat fictif n’est publié. Chaque mesure indiquera sa date et sa source.</div>
+          <div class="metric"><span>Réseaux suivis</span><strong>2</strong></div>
+          <div class="metric"><span>Dernière analyse</span><strong>12/06/2026</strong></div>
+          <div class="notice">95 analyses sont disponibles dans l’historique. Chaque mesure indique sa date et sa source.</div>
           <div class="legend">
             <h3>Légende future</h3>
             <p><i class="dot green"></i> Conforme</p>
@@ -65,21 +65,39 @@
       </div>
 
       <section class="water-results" aria-labelledby="results-title">
-        <div class="results-copy">
-          <p class="eyebrow">Analyse du 11 août 2026</p>
-          <h2 id="results-title">Les nitrates par point de prélèvement</h2>
-          <p>Les deux prélèvements sont indiqués comme conformes sur les paramètres mesurés dans le relevé actuellement disponible.</p>
-          <div class="result-cards">
-            <article><span>Le Bourg</span><strong>4,64 µg/L</strong><small>Perchlorates</small></article>
-            <article><span>Antenne de Moineaux</span><strong>3,19 µg/L</strong><small>Perchlorates</small></article>
+        <div class="results-head">
+          <div>
+            <p class="eyebrow">Historique 2016–2026</p>
+            <h2 id="results-title">Évolution des nitrates</h2>
+            <p>Chaque point correspond à une analyse du contrôle sanitaire. La ligne rouge rappelle la limite de qualité de 50 mg/L citée dans les conclusions ARS.</p>
           </div>
+          <label class="network-filter">Réseau affiché
+            <select id="networkFilter">
+              <option value="gas">Réseau 028001131 – Gas</option>
+              <option value="partage">Réseau partagé Yermenonville–Gas–Bailleau</option>
+              <option value="tous">Tous les réseaux</option>
+            </select>
+          </label>
         </div>
-        <div class="chart-card">
-          <canvas id="nitratesChart" aria-label="Comparaison des nitrates au Bourg et à l’Antenne de Moineaux"></canvas>
+
+        <div class="summary-grid">
+          <article><span>Analyses publiées</span><strong id="analysisCount">—</strong><small>Pour le filtre choisi</small></article>
+          <article><span>Dernière analyse</span><strong id="latestDate">—</strong><small id="latestStatus">Conclusion ARS</small></article>
+          <article><span>Dernier nitrate</span><strong id="latestNitrate">—</strong><small>mg/L</small></article>
+          <article><span>Dernier perchlorate</span><strong id="latestPerchlorate">—</strong><small>µg/L · si mesuré</small></article>
+        </div>
+
+        <div class="chart-card history-chart">
+          <canvas id="nitratesChart" aria-label="Évolution des nitrates de 2016 à 2026"></canvas>
+        </div>
+
+        <div class="latest-conclusion">
+          <h3>Conclusion ARS de la dernière analyse affichée</h3>
+          <p id="latestConclusion">Chargement des données…</p>
         </div>
       </section>
 
-      <p class="source-note"><strong>Source :</strong> relevé « GAS - Historique analyses eau potable ARS-SISE » — affichage ARS photographié. Données à recouper avec SISE-Eaux. La conclusion officielle du relevé prévaut sur cette visualisation.</p>
+      <p class="source-note"><strong>Source :</strong> données du contrôle sanitaire ARS/SISE-Eaux, consolidées dans « GAS - Données publiques GitHub - eau 2016-2026 - VALIDE ». La conclusion officielle de chaque analyse prévaut sur cette visualisation.</p>
     </section>
 
     <section class="section about" id="apropos">
@@ -98,6 +116,7 @@
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <script src="water-data.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
