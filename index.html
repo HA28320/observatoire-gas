@@ -63,6 +63,23 @@
         </aside>
         <div id="map" role="region" aria-label="Carte de Gas"></div>
       </div>
+
+      <section class="water-results" aria-labelledby="results-title">
+        <div class="results-copy">
+          <p class="eyebrow">Analyse du 11 août 2026</p>
+          <h2 id="results-title">Les nitrates par point de prélèvement</h2>
+          <p>Les deux prélèvements sont indiqués comme conformes sur les paramètres mesurés dans le relevé actuellement disponible.</p>
+          <div class="result-cards">
+            <article><span>Le Bourg</span><strong>4,64 µg/L</strong><small>Perchlorates</small></article>
+            <article><span>Antenne de Moineaux</span><strong>3,19 µg/L</strong><small>Perchlorates</small></article>
+          </div>
+        </div>
+        <div class="chart-card">
+          <canvas id="nitratesChart" aria-label="Comparaison des nitrates au Bourg et à l’Antenne de Moineaux"></canvas>
+        </div>
+      </section>
+
+      <p class="source-note"><strong>Source :</strong> relevé « GAS - Historique analyses eau potable ARS-SISE » — affichage ARS photographié. Données à recouper avec SISE-Eaux. La conclusion officielle du relevé prévaut sur cette visualisation.</p>
     </section>
 
     <section class="section about" id="apropos">
@@ -80,6 +97,7 @@
   </footer>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
