@@ -18,32 +18,76 @@ commune.bindPopup("<strong>Gas (28320)</strong><br>Les points de suivi de l’ea
 L.control.scale({ imperial: false }).addTo(map);
 
 const chartCanvas = document.getElementById("nitratesChart");
+const filter = document.getElementById("networkFilter");
+let nitratesChart;
 
-if (chartCanvas && window.Chart) {
-  new Chart(chartCanvas, {
-    type: "bar",
+const isGas = item => item.reseau === "028001131 - GAS";
+const isShared = item => item.reseau !== "028001131 - GAS";
+const formatDate = value => new Intl.DateTimeFormat("fr-FR", { day: "2-digit", month: "short", year: "numeric" }).format(new Date(`${value}T12:00:00`));
+
+function selectedData() {
+  const mode = filter?.value || "gas";
+  return (window.WATER_DATA || []).filter(item => mode === "tous" || (mode === "gas" ? isGas(item) : isShared(item)));
+}
+
+function renderWaterHistory() {
+  const rows = selectedData();
+  const nitrateRows = rows.filter(item => Number.isFinite(item.nitrates));
+  const latest = rows.at(-1);
+
+  document.getElementById("analysisCount").textContent = rows.length.toLocaleString("fr-FR");
+  document.getElementById("latestDate").textContent = latest ? formatDate(latest.date) : "—";
+  document.getElementById("latestNitrate").textContent = latest?.nitrates?.toLocaleString("fr-FR", { minimumFractionDigits: 1 }) ?? "—";
+  document.getElementById("latestPerchlorate").textContent = latest?.perchlorates?.toLocaleString("fr-FR", { minimumFractionDigits: 2 }) ?? "Non mesuré";
+  document.getElementById("latestConclusion").textContent = latest?.conclusion || "Aucune conclusion disponible.";
+  document.getElementById("latestStatus").textContent = latest?.conclusion?.toLowerCase().includes("non conforme") ? "Point de vigilance ARS" : "Conforme selon l’ARS";
+
+  nitratesChart?.destroy();
+  if (!chartCanvas || !window.Chart) return;
+
+  nitratesChart = new Chart(chartCanvas, {
+    type: "line",
     data: {
-      labels: ["Le Bourg", "Antenne de Moineaux"],
-      datasets: [{
-        label: "Nitrates (mg/L)",
-        data: [35.9, 26.8],
-        backgroundColor: ["#197e9f", "#24745f"],
-        borderRadius: 7,
-        maxBarThickness: 90
-      }]
+      labels: nitrateRows.map(item => formatDate(item.date)),
+      datasets: [
+        {
+          label: "Nitrates mesurés",
+          data: nitrateRows.map(item => item.nitrates),
+          borderColor: "#197e9f",
+          backgroundColor: "rgba(25,126,159,.12)",
+          pointBackgroundColor: "#197e9f",
+          pointRadius: 2.5,
+          pointHoverRadius: 6,
+          borderWidth: 2,
+          tension: .18,
+          fill: true
+        },
+        {
+          label: "Limite citée par l’ARS (50 mg/L)",
+          data: nitrateRows.map(() => 50),
+          borderColor: "#d95050",
+          borderDash: [7, 6],
+          borderWidth: 2,
+          pointRadius: 0,
+          fill: false
+        }
+      ]
     },
     options: {
       responsive: true,
       maintainAspectRatio: false,
+      interaction: { intersect: false, mode: "index" },
       plugins: {
-        legend: { display: false },
-        title: { display: true, text: "Nitrates mesurés le 11 août 2026", color: "#18332e", font: { size: 17 } },
-        tooltip: { callbacks: { label: context => `${context.raw.toLocaleString("fr-FR")} mg/L` } }
+        legend: { position: "bottom" },
+        tooltip: { callbacks: { label: context => `${context.dataset.label} : ${Number(context.raw).toLocaleString("fr-FR")} mg/L` } }
       },
       scales: {
-        y: { beginAtZero: true, suggestedMax: 40, title: { display: true, text: "Nitrates (mg/L)" }, grid: { color: "#e5ece8" } },
-        x: { grid: { display: false } }
+        y: { beginAtZero: true, suggestedMax: 55, title: { display: true, text: "Nitrates (mg/L)" }, grid: { color: "#e5ece8" } },
+        x: { ticks: { maxRotation: 0, autoSkip: true, maxTicksLimit: 12 }, grid: { display: false } }
       }
     }
   });
 }
+
+filter?.addEventListener("change", renderWaterHistory);
+renderWaterHistory();
