@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Observatoire indépendant d'information, de données et de cartographie sur Gas (28320).">
+  <title>Observatoire de Gas</title>
+  <link rel="preconnect" href="https://unpkg.com">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="#accueil" aria-label="Accueil de l’Observatoire de Gas">
+      <span class="brand-mark">G</span>
+      <span><strong>Observatoire de Gas</strong><small>Données · Cartes · Territoire</small></span>
+    </a>
+    <nav aria-label="Navigation principale">
+      <a href="#accueil">Accueil</a>
+      <a href="#eau">Qualité de l’eau</a>
+      <a href="#apropos">À propos</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="accueil">
+      <div class="hero-content">
+        <p class="eyebrow">Gas · Eure-et-Loir</p>
+        <h1>Comprendre notre territoire,<br><span>simplement.</span></h1>
+        <p class="intro">Un espace indépendant pour consulter des informations locales, des données vérifiables et des cartes utiles.</p>
+        <a class="button" href="#eau">Découvrir la première carte</a>
+      </div>
+      <div class="hero-card" aria-label="Première rubrique disponible">
+        <span class="drop">💧</span>
+        <p>Première rubrique</p>
+        <h2>Qualité de l’eau</h2>
+        <span class="status">En préparation</span>
+      </div>
+    </section>
+
+    <section class="section" id="eau">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Carte interactive</p>
+          <h2>Suivi de la qualité de l’eau</h2>
+        </div>
+        <p>Les points de suivi et leurs analyses apparaîtront ici dès que les premières données auront été vérifiées.</p>
+      </div>
+
+      <div class="map-layout">
+        <aside class="map-panel">
+          <h3>État des données</h3>
+          <div class="metric"><span>Points publiés</span><strong>0</strong></div>
+          <div class="metric"><span>Dernière analyse</span><strong>À venir</strong></div>
+          <div class="notice">Aucun résultat fictif n’est publié. Chaque mesure indiquera sa date et sa source.</div>
+          <div class="legend">
+            <h3>Légende future</h3>
+            <p><i class="dot green"></i> Conforme</p>
+            <p><i class="dot amber"></i> Vigilance</p>
+            <p><i class="dot red"></i> Non conforme</p>
+            <p><i class="dot gray"></i> Donnée indisponible</p>
+          </div>
+        </aside>
+        <div id="map" role="region" aria-label="Carte de Gas"></div>
+      </div>
+    </section>
+
+    <section class="section about" id="apropos">
+      <div>
+        <p class="eyebrow">À propos</p>
+        <h2>Une initiative indépendante</h2>
+      </div>
+      <p>Ce site est un projet indépendant, sans affiliation avec la mairie de Gas ni avec une administration publique. Les informations sont fournies à titre informatif et accompagnées de leurs sources.</p>
+    </section>
+  </main>
+
+  <footer>
+    <span>Observatoire de Gas</span>
+    <span>Site indépendant · Mise à jour septembre 2026</span>
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
